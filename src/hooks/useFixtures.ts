@@ -86,23 +86,6 @@ export function useFixtures(selectedDate: Date, activeTab: FilterTab): UseFixtur
 
             let events = await fetchEventsByDate(dateStr);
 
-            // Enrich events with mock data for demonstration (AGG, PEN, Red Cards)
-            events = events.map(event => {
-                const home = event.strHomeTeam?.toLowerCase() || '';
-                const away = event.strAwayTeam?.toLowerCase() || '';
-
-                if (home.includes('arsenal')) {
-                    return { ...event, strAggMessage: 'AGG', intHomeScoreAgg: '2', intAwayScoreAgg: '0' };
-                }
-                if (home.includes('chelsea')) {
-                    return { ...event, intHomeRedCards: 1, intHomeScoreAgg: '3', intAwayScoreAgg: '1' };
-                }
-                if (away.includes('totnam')) {
-                    return { ...event, strPenMessage: 'PEN', intHomeScoreAgg: '1', intAwayScoreAgg: '3' };
-                }
-                return event;
-            });
-
             events.sort(
                 (a, b) => new Date(b.strTimestamp).getTime() - new Date(a.strTimestamp).getTime()
             );
