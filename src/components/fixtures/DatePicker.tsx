@@ -121,22 +121,14 @@ export default function DatePicker({
               >
                 <span
                   className={`text-[11px] font-medium leading-tight tracking-wide ${
-                    isSelected
-                      ? "text-secondary"
-                      : isSelected
-                        ? "text-text-primary"
-                        : "text-text-secondary"
+                    isSelected ? "text-secondary" : "text-text-secondary"
                   }`}
                 >
                   {isTodayDate && isSelected ? "Today" : dayName}
                 </span>
                 <span
                   className={`text-sm font-normal leading-tight mt-0.5 ${
-                    isSelected
-                      ? "text-secondary"
-                      : isSelected
-                        ? "text-text-primary"
-                        : "text-text-secondary"
+                    isSelected ? "text-secondary" : "text-text-secondary"
                   }`}
                 >
                   {isTodayDate && !isSelected ? "Today" : `${dayNum} ${month}`}
