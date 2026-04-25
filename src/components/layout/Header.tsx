@@ -10,8 +10,7 @@ interface HeaderProps {
 export default function Header({ onMenuToggle }: HeaderProps) {
   return (
     <header
-      className="sticky top-0 z-30 flex items-center h-14 px-1 md:px-2 lg:px-6 bg-primary border-bborder-border-primary"
-      style={{ fontFamily: "var(--font-family-poppins)" }}
+      className="sticky top-0 z-30 flex items-center h-14 px-1 md:px-2 lg:px-6 bg-primary border-b border-border-primary"
     >
       {/* Mobile menu toggle */}
       <div className="flex items-center">
