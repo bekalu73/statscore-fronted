@@ -2,6 +2,7 @@ import { NAV_LINKS } from "../../lib/constants";
 import EnglishFlagIcon from "../icons/english-flag";
 import LeadingIcon from "../icons/leading";
 import logoImg from "../../assets/logo.png";
+import { ChevronDown, Menu } from "lucide-react";
 
 interface HeaderProps {
   onMenuToggle: () => void;
@@ -9,15 +10,13 @@ interface HeaderProps {
 
 export default function Header({ onMenuToggle }: HeaderProps) {
   return (
-    <header
-      className="sticky top-0 z-30 flex items-center h-14 px-1 md:px-2 lg:px-6 bg-primary border-b border-border-primary"
-    >
+    <header className="sticky top-0 z-30 flex items-center h-14 px-1 md:px-2 lg:px-6 bg-primary border-b border-border-primary">
       {/* Mobile menu toggle */}
       <div className="flex items-center">
         <img
           src={logoImg}
           alt="logo"
-          className="w-32 lg:w-44 h-9 lg:h-14 object-contain lg:pr-4"
+          className="w-50 lg:w-44 h-50 lg:h-14 object-contain lg:pr-4"
         />
       </div>
 
@@ -63,33 +62,17 @@ export default function Header({ onMenuToggle }: HeaderProps) {
           <span className="text-base text-text-primary font-medium font-poppins hidden md:block">
             Premier League
           </span>
-          <svg
-            className="w-3 h-3 text-text-white hidden md:block"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="4"
-          >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
+          <ChevronDown size={14} />
         </div>
 
         {/* Season dropdown */}
         <div className="flex items-center gap-3 px-3 py-1.5 bg-bg-card/10 rounded-full  cursor-pointer hover:bg-bg-card-hover/20">
           <span className="text-sm text-text-primary font-normal">2024/25</span>
-          <svg
-            className="w-3 h-3 text-text-white"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="4"
-          >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
+          <ChevronDown size={14} />
         </div>
 
         {/* Country flag */}
-        <button className="hidden md:flex w-10 h-10 rounded-full bg-bg-card/10 flex items-center justify-center text-text-secondary hover:bg-bg-card-hover/20 cursor-pointer">
+        <button className="hidden md:flex w-10 h-10 rounded-full bg-bg-card/10  items-center justify-center text-text-secondary hover:bg-bg-card-hover/20 cursor-pointer">
           <EnglishFlagIcon />
         </button>
 
@@ -98,16 +81,7 @@ export default function Header({ onMenuToggle }: HeaderProps) {
           className="mr-3 text-text-white hover:text-text-secondary lg:hidden"
           id="menu-toggle"
         >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path d="M3 12h18M3 6h18M3 18h18" />
-          </svg>
+          <Menu />
         </button>
       </div>
     </header>

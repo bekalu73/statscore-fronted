@@ -1,5 +1,6 @@
 import { NAV_LINKS } from "../../lib/constants";
 import logoImg from "../../assets/logo.png";
+import { X } from "lucide-react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -19,7 +20,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
       <aside
         className={`
-          fixed top-0 right-0 z-50 h-full w-[220px] bg-bg-sidebar border-r border-border-primary 
+          fixed top-0 right-0 z-50 h-full w-55 bg-bg-sidebar border-r border-border-primary 
           flex flex-col transition-transform duration-300 ease-in-out lg:hidden
           lg:translate-x-0 lg:static lg:z-auto
           ${isOpen ? "translate-x-0" : "translate-x-full"}
@@ -34,16 +35,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             onClick={onClose}
             className="ml-auto text-text-secondary hover:text-text-primary lg:hidden"
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
+            <X />
           </button>
         </div>
 
@@ -69,14 +61,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             ))}
           </ul>
         </nav>
-
-        {/* Footer */}
-        <div className="px-5 py-4 border-t border-border-primary">
-          <div className="flex items-center gap-2 text-xs text-text-muted">
-            <div className="w-2 h-2 rounded-full bg-green-accent" />
-            <span>Connected</span>
-          </div>
-        </div>
       </aside>
     </>
   );

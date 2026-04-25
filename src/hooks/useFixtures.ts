@@ -1,113 +1,77 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { fetchEventsByDate } from '../lib/api';
-import type { SportEvent, LeagueGroup, FilterTab } from '../lib/types';
-import { getMatchStatus } from '../lib/utils';
-import { usePolling } from './usePolling';
-import { POLLING_INTERVAL_MS, LEAGUE_IDS } from '../lib/constants';
+import { useFetchData } from "../lib/useFetchData";
+import { queryKeys, URL } from "../lib/queryKeys";
+import type {
+  SportEvent,
+  LeagueGroup,
+  FilterTab,
+  EventsApiResponse,
+} from "../types";
+import { formatDateParam, getMatchStatus } from "../utils";
+import { LEAGUE_IDS } from "../lib/constants";
+
+const POLLING_INTERVAL_MS = 20_000;
 
 const LEAGUE_PRIORITY: Record<string, number> = {
-    [LEAGUE_IDS.CHAMPIONS_LEAGUE]: 1,
-    [LEAGUE_IDS.PREMIER_LEAGUE]: 2,
-    [LEAGUE_IDS.FA_CUP]: 3,
-    [LEAGUE_IDS.BUNDESLIGA]: 4,
+  [LEAGUE_IDS.CHAMPIONS_LEAGUE]: 1,
+  [LEAGUE_IDS.PREMIER_LEAGUE]: 2,
+  [LEAGUE_IDS.FA_CUP]: 3,
+  [LEAGUE_IDS.BUNDESLIGA]: 4,
 };
 
 function groupByLeague(events: SportEvent[]): LeagueGroup[] {
-    const map = new Map<string, LeagueGroup>();
-
-    for (const event of events) {
-        const key = event.idLeague;
-        if (!map.has(key)) {
-            map.set(key, {
-                leagueId: event.idLeague,
-                leagueName: event.strLeague,
-                leagueBadge: event.strLeagueBadge,
-                events: [],
-            });
-        }
-        map.get(key)!.events.push(event);
+  const map = new Map<string, LeagueGroup>();
+  for (const event of events) {
+    if (!map.has(event.idLeague)) {
+      map.set(event.idLeague, {
+        leagueId: event.idLeague,
+        leagueName: event.strLeague,
+        leagueBadge: event.strLeagueBadge,
+        events: [],
+      });
     }
-
-    return Array.from(map.values()).sort((a, b) => {
-        const priorityA = LEAGUE_PRIORITY[a.leagueId] ?? 999;
-        const priorityB = LEAGUE_PRIORITY[b.leagueId] ?? 999;
-        return priorityA - priorityB;
-    });
-}
-
-function formatDateParam(date: Date): string {
-    const y = date.getFullYear();
-    const m = String(date.getMonth() + 1).padStart(2, '0');
-    const d = String(date.getDate()).padStart(2, '0');
-    return `${y}-${m}-${d}`;
+    map.get(event.idLeague)!.events.push(event);
+  }
+  return Array.from(map.values()).sort(
+    (a, b) =>
+      (LEAGUE_PRIORITY[a.leagueId] ?? 999) -
+      (LEAGUE_PRIORITY[b.leagueId] ?? 999),
+  );
 }
 
 function filterByTab(events: SportEvent[], tab: FilterTab): SportEvent[] {
-    if (tab === 'all') return events;
-    if (tab === 'live') {
-        return events.filter((e) => {
-            const s = getMatchStatus(e);
-            return s === 'live' || s === 'halftime';
-        });
-    }
-    // favorites — show first 2 per league as mock
-    const leagueCount = new Map<string, number>();
-    return events.filter((e) => {
-        const count = leagueCount.get(e.idLeague) ?? 0;
-        if (count >= 2) return false;
-        leagueCount.set(e.idLeague, count + 1);
-        return true;
-    });
+  if (tab === "all") return events;
+  if (tab === "live")
+    return events.filter((e) =>
+      ["live", "halftime"].includes(getMatchStatus(e)),
+    );
+  const leagueCount = new Map<string, number>();
+  return events.filter((e) => {
+    const count = leagueCount.get(e.idLeague) ?? 0;
+    if (count >= 2) return false;
+    leagueCount.set(e.idLeague, count + 1);
+    return true;
+  });
 }
 
-interface UseFixturesReturn {
-    leagues: LeagueGroup[];
-    allEvents: SportEvent[];
-    loading: boolean;
-    error: Error | null;
-    refetch: () => void;
-}
+export function useFixtures(selectedDate: Date, activeTab: FilterTab) {
+  const dateStr = formatDateParam(selectedDate);
 
-export function useFixtures(selectedDate: Date, activeTab: FilterTab): UseFixturesReturn {
-    const [allEvents, setAllEvents] = useState<SportEvent[]>([]);
-    const [leagues, setLeagues] = useState<LeagueGroup[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
+  const { data, isLoading, error, refetch } = useFetchData<EventsApiResponse>(
+    [queryKeys.fixtures, dateStr],
+    URL.fixtures(dateStr),
+    { refetchInterval: POLLING_INTERVAL_MS },
+  );
 
-    const dateStr = formatDateParam(selectedDate);
-    const prevDateStr = useRef(dateStr);
+  const allEvents = [...(data?.events ?? [])].sort(
+    (a, b) =>
+      new Date(b.strTimestamp).getTime() - new Date(a.strTimestamp).getTime(),
+  );
 
-    const fetchData = useCallback(async () => {
-        try {
-            if (prevDateStr.current !== dateStr) {
-                setLoading(true);
-                prevDateStr.current = dateStr;
-            }
-
-            let events = await fetchEventsByDate(dateStr);
-
-            events.sort(
-                (a, b) => new Date(b.strTimestamp).getTime() - new Date(a.strTimestamp).getTime()
-            );
-
-            setAllEvents(events);
-
-            const filtered = filterByTab(events, activeTab);
-            setLeagues(groupByLeague(filtered));
-            setError(null);
-        } catch (err) {
-            setError(err as Error);
-        } finally {
-            setLoading(false);
-        }
-    }, [dateStr, activeTab]);
-
-    useEffect(() => {
-        setLoading(true);
-        fetchData();
-    }, [fetchData]);
-
-    usePolling(fetchData, POLLING_INTERVAL_MS, !loading);
-
-    return { leagues, allEvents, loading, error, refetch: fetchData };
+  return {
+    leagues: groupByLeague(filterByTab(allEvents, activeTab)),
+    allEvents,
+    loading: isLoading,
+    error,
+    refetch,
+  };
 }

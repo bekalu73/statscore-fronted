@@ -10,7 +10,7 @@ import {
   generateDateRange,
   isSameDay,
   isToday,
-} from "../../lib/utils";
+} from "../../utils";
 
 interface DatePickerProps {
   selectedDate: Date;
@@ -62,7 +62,7 @@ export default function DatePicker({
         {/* Previous day */}
         <button
           onClick={goToPrev}
-          className="flex-shrink-0 p-2.5 rounded-full text-text-white/60 hover:bg-[#24252F]/80 transition-colors cursor-pointer"
+          className="shrink-0 p-2.5 rounded-full text-text-white/60 hover:bg-[#24252F]/80 transition-colors cursor-pointer"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -81,7 +81,7 @@ export default function DatePicker({
         {/* Next day */}
         <button
           onClick={goToNext}
-          className="flex-shrink-0 p-2.5 rounded-full text-text-white/60 hover:bg-[#24252F]/80 transition-colors cursor-pointer"
+          className="shrink-0 p-2.5 rounded-full text-text-white/60 hover:bg-[#24252F]/80 transition-colors cursor-pointer"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -94,7 +94,7 @@ export default function DatePicker({
                     ${isExpanded ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none absolute inset-0"}
                 `}
       >
-        <div className="w-14 md:w-24 h-full flex items-center justify-center gap-2 py-2 rounded-l-lg absolute left-0 bg-gradient-to-r from-bg-canvas to-bg-canvas/10" />
+        <div className="w-14 md:w-24 h-full flex items-center justify-center gap-2 py-2 rounded-l-lg absolute left-0 bg-linear-to-r from-bg-canvas to-bg-canvas/10" />
 
         <div
           ref={scrollRef}
@@ -111,7 +111,7 @@ export default function DatePicker({
                 ref={isSelected ? selectedRef : undefined}
                 onClick={() => onDateSelect(date)}
                 className={`
-                                    flex flex-col items-center px-4 py-1.5 rounded-lg min-w-[72px] transition-all text-center cursor-pointer flex-shrink-0
+                                    flex flex-col items-center px-4 py-1.5 rounded-lg min-w-[72px] transition-all text-center cursor-pointer shrink-0
                                     ${
                                       isSelected
                                         ? "bg-[#24252F] shadow-lg"
@@ -138,11 +138,11 @@ export default function DatePicker({
           })}
         </div>
 
-        <div className="w-14 md:w-24 h-full flex items-center justify-center gap-2 py-2 rounded-l-lg absolute right-0 bg-gradient-to-l from-bg-canvas to-bg-canvas/10">
+        <div className="w-14 md:w-24 h-full flex items-center justify-center gap-2 py-2 rounded-l-lg absolute right-0 bg-linear-to-l from-bg-canvas to-bg-canvas/10">
           {/* Fixed calendar icon on the right */}
           <button
             onClick={() => setIsExpanded(false)}
-            className="absolute right-2 top-1/2 -translate-y-1/2 flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#24252F] rounded-full text-secondary hover:bg-[#24252F]/80 transition-colors cursor-pointer z-10"
+            className="absolute right-2 top-1/2 -translate-y-1/2 shrink-0 w-10 h-10 flex items-center justify-center bg-[#24252F] rounded-full text-secondary hover:bg-[#24252F]/80 transition-colors cursor-pointer z-10"
           >
             <CalendarDays className="w-5 h-5" />
           </button>

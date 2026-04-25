@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useFixtures } from "../hooks/useFixtures";
-import type { FilterTab } from "../lib/types";
-import { getMatchStatus } from "../lib/utils";
+import type { FilterTab } from "../types";
+import { getMatchStatus } from "../utils";
 import DatePicker from "../components/fixtures/DatePicker";
 import FilterTabs from "../components/fixtures/FilterTabs";
 import LeagueSection from "../components/fixtures/LeagueSection";
@@ -30,7 +30,9 @@ export default function Fixtures() {
 
   return (
     <div className="max-w-4xl mx-auto px-3 md:px-6 py-4 space-y-4">
-      <h1 className="text-xl font-bold text-text-primary">Matches</h1>
+      <h1 className="text-xl font-bold text-text-primary hidden md:flex">
+        Matches
+      </h1>
 
       <DatePicker selectedDate={selectedDate} onDateSelect={setSelectedDate} />
 
@@ -49,7 +51,10 @@ export default function Fixtures() {
           ))}
         </div>
       ) : error ? (
-        <ErrorState message="Failed to load fixtures" onRetry={refetch} />
+        <ErrorState
+          message="Failed to load fixtures"
+          onRetry={() => refetch()}
+        />
       ) : leagues.length === 0 ? (
         <EmptyState />
       ) : (
