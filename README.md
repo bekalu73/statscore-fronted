@@ -44,14 +44,15 @@ Fully responsive and optimized for mobile devices, featuring a slide-out drawer 
 
 ### Core Tech Stack
 
-| Technology          | Role                                            |
-| :------------------ | :---------------------------------------------- |
-| **React 19**        | UI Library with latest Concurrent Mode features |
-| **TypeScript**      | Type-safe development with strict configuration |
-| **Tailwind CSS 4**  | Next-gen styling with zero-runtime overhead     |
-| **Vite 7**          | Ultra-fast build tool and development server    |
-| **React Router v7** | Declarative routing for deep-linking matches    |
-| **TanStack Query**  | Efficient server-state management and caching   |
+| Technology                      | Role                                            |
+| :------------------------------ | :---------------------------------------------- |
+| **React 19**                    | UI Library with latest Concurrent Mode features |
+| **TypeScript**                  | Type-safe development with strict configuration |
+| **Tailwind CSS 4**              | Next-gen styling with zero-runtime overhead     |
+| **Vite 7**                      | Ultra-fast build tool and development server    |
+| **React Router v7**             | Declarative routing for deep-linking matches    |
+| **TanStack Query**              | Efficient server-state management and caching   |
+| **Jest + Testing Library**      | Unit and component testing                      |
 
 ### Architecture Highlights
 
@@ -59,6 +60,7 @@ Fully responsive and optimized for mobile devices, featuring a slide-out drawer 
 - **Polling Strategy**: Implemented a robust polling mechanism using `usePolling` that handles component unmounting and prevents stale closures.
 - **Event Timeline Engine**: A sophisticated utility transforms flat API responses into a structured, dual-sided timeline, grouping events by minute and team.
 - **Design System**: Built a consistent UI primitive layer (`Badge`, `Skeleton`, `TeamBadge`) to ensure visual consistency across the entire app.
+- **Isolated Test Config**: Tests run via a dedicated `tsconfig.jest.json` (CommonJS, JSX, esModuleInterop) keeping the Vite build config untouched.
 
 ---
 
@@ -66,6 +68,11 @@ Fully responsive and optimized for mobile devices, featuring a slide-out drawer 
 
 ```text
 src/
+├── __tests__/          # Jest test suites
+│   ├── date.test.ts
+│   ├── matchStatus.test.ts
+│   ├── FilterTabs.test.tsx
+│   └── MatchCard.test.tsx
 ├── components/
 │   ├── fixtures/       # Dashboard & Match list components
 │   ├── layout/         # Shell, Sidebar, and Header
@@ -74,6 +81,8 @@ src/
 ├── hooks/              # Custom React hooks (Data fetching, Polling)
 ├── lib/                # API wrappers, Types, and Utils
 ├── pages/              # Main route entries (Dashboard, Details)
+├── utils/              # Date, status, and timeline helpers
+├── setupTests.ts       # Jest global setup (jest-dom + polyfills)
 └── index.css           # Tailwind 4 configuration & custom animations
 ```
 
@@ -116,6 +125,33 @@ src/
 
 ---
 
+## 🧪 Testing
+
+Tests are written with **Jest**, **ts-jest**, and **React Testing Library**, covering utility functions and UI components.
+
+### Run tests
+
+```bash
+npm test
+```
+
+### Watch mode
+
+```bash
+npm run test:watch
+```
+
+### Test coverage
+
+| Suite                  | What's tested                                          |
+| :--------------------- | :----------------------------------------------------- |
+| `date.test.ts`         | `formatEventDate`, `formatDateParam`, `formatDatePicker`, `generateDateRange`, `isSameDay`, `isToday` |
+| `matchStatus.test.ts`  | `getMatchStatus`, `getStatusDisplay`, `getStatusColor`, `getStatusTextColor` |
+| `FilterTabs.test.tsx`  | Renders tabs, count badges, active styles, tab change callbacks |
+| `MatchCard.test.tsx`   | Renders teams/scores/status, navigation on click, event propagation |
+
+---
+
 ## 📝 Assessment Summary
 
 This project was built as a demonstration of senior-level frontend engineering skills for a technical test, focusing on:
@@ -124,6 +160,7 @@ This project was built as a demonstration of senior-level frontend engineering s
 - **Code Quality**: Clean, documented, and type-safe codebase.
 - **UX/UI**: High-fidelity implementation of professional designs.
 - **Robustness**: Graceful handling of loading, error, and empty states.
+- **Testability**: Utility logic and components covered by a Jest test suite with 40 passing tests.
 
 ---
 
