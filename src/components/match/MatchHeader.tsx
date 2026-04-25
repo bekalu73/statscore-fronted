@@ -16,13 +16,21 @@ export default function MatchHeader({ event, children }: MatchHeaderProps) {
   const hasScore = event.intHomeScore !== null && event.intAwayScore !== null;
   const dateFormatted = formatEventDate(event.dateEvent);
 
+  function handleBack() {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/');
+    }
+  }
+
   return (
     <div className="bg-bg-surface rounded-t-xl overflow-hidden border-b-card">
       <div className="flex items-center gap-3 px-4 py-3 border-b border-border-primary">
         <button
-          onClick={() => navigate(-1)}
-          className="text-text-secondary hover:text-text-primary transition-colors"
-          id="back-button"
+          type="button"
+          onClick={handleBack}
+          className="text-text-secondary hover:text-text-primary transition-colors cursor-pointer"
         >
           <ArrowLeftIcon className="text-text-white size-5" />
         </button>

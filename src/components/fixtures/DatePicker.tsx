@@ -110,13 +110,9 @@ export default function DatePicker({
                 key={date.toISOString()}
                 ref={isSelected ? selectedRef : undefined}
                 onClick={() => onDateSelect(date)}
-                className={`
-                                    flex flex-col items-center px-4 py-1.5 rounded-lg min-w-[72px] transition-all text-center cursor-pointer shrink-0
-                                    ${
-                                      isSelected
-                                        ? "bg-[#24252F] shadow-lg"
-                                        : "hover:bg-[#24252F]"
-                                    }
+                className={`flex flex-col items-center px-4 py-1.5 rounded-lg min-w-18 transition-all text-center cursor-pointer shrink-0 ${
+                  isSelected ? "bg-[#24252F] shadow-lg" : "hover:bg-[#24252F]"
+                }
                                 `}
               >
                 <span

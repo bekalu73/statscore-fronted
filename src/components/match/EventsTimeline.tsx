@@ -50,8 +50,6 @@ interface EventsTimelineProps {
 export default function EventsTimeline({ items }: EventsTimelineProps) {
   const grouped = groupTimelineItems(items);
 
-  console.log("grouped", grouped);
-
   return (
     <div className="bg-bg-surface rounded-lg overflow-hidden p-2">
       <div className="px-4 py-3 border-b border-border-primary">
