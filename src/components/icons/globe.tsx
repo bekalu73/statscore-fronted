@@ -15,7 +15,7 @@ const GlobeIcon = ({ ...props }: React.SVGProps<SVGSVGElement>) => {
         />
         <mask
           id="mask0_2577_959"
-          style="mask-type:luminance"
+        style={{ maskType: 'luminance' } as React.CSSProperties}
           maskUnits="userSpaceOnUse"
           x="0"
           y="0"
