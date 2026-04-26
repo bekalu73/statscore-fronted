@@ -1,7 +1,17 @@
 {
   "name": "statscore-fronted",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "author": "Beklau sisay",
+  "keywords": [
+    "sports",
+    "live-scores",
+    "football",
+    "statistics",
+    "react",
+    "typescript",
+    "tailwind-css"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",
