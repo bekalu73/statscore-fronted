@@ -24,13 +24,9 @@ export default function MatchTabs({ activeTab: controlledTab, onTabChange }: Mat
                 <button
                     key={tab}
                     onClick={() => handleTabClick(tab)}
-                    className={`
-            relative px-4 py-3 text-base  whitespace-nowrap transition-colors
-            ${activeTab === tab
+                    className={`relative px-4 py-3 text-base  whitespace-nowrap transition-colors ${activeTab === tab
                             ? 'text-text-white font-semibold'
-                            : 'text-text-white/60 hover:text-text-white font-medium'
-                        }
-          `}
+                            : 'text-text-white/60 hover:text-text-white font-medium'} `}
                 >
                     {tab}
                     {activeTab === tab && (

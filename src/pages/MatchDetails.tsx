@@ -27,7 +27,6 @@ export default function MatchDetails() {
     );
   }
 
-  console.log("event", event);
 
   const timelineItems = generateMockTimeline(event);
 

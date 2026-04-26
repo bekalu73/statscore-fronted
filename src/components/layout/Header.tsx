@@ -1,17 +1,35 @@
+import { useState } from "react";
 import { NAV_LINKS } from "../../lib/constants";
 import EnglishFlagIcon from "../icons/english-flag";
 import LeadingIcon from "../icons/leading";
 import logoImg from "../../assets/logo.png";
-import { ChevronDown, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
+import Dropdown from "../ui/Dropdown";
 
 interface HeaderProps {
   onMenuToggle: () => void;
 }
 
+const LEAGUES = [
+  { id: "pl", label: "Premier League", icon: <LeadingIcon /> },
+  { id: "ll", label: "La Liga" },
+  { id: "sa", label: "Serie A" },
+  { id: "bl", label: "Bundesliga" },
+  { id: "l1", label: "Ligue 1" },
+];
+
+const SEASONS = [
+  { id: "24-25", label: "2024/25" },
+  { id: "23-24", label: "2023/24" },
+  { id: "22-23", label: "2022/23" },
+];
+
 export default function Header({ onMenuToggle }: HeaderProps) {
+  const [selectedLeague, setSelectedLeague] = useState("pl");
+  const [selectedSeason, setSelectedSeason] = useState("24-25");
+
   return (
     <header className="sticky top-0 z-30 flex items-center h-14 px-1 md:px-2 lg:px-6 bg-primary border-b border-border-primary">
-      {/* Mobile menu toggle */}
       <div className="flex items-center">
         <img
           src={logoImg}
@@ -20,9 +38,8 @@ export default function Header({ onMenuToggle }: HeaderProps) {
         />
       </div>
 
-      {/* Right section */}
       <div className="ml-auto flex items-center gap-1 md:gap-3">
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-1 mr-2">
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
@@ -40,45 +57,50 @@ export default function Header({ onMenuToggle }: HeaderProps) {
             </a>
           ))}
         </nav>
-        {/* Globe icons */}
+
         <div className="flex items-center gap-2">
-          <button className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-bg-card/10 flex items-center justify-center text-text-secondary hover:bg-bg-card-hover/20 cursor-pointer">
+          <button className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-bg-card/10 flex items-center justify-center text-text-secondary hover:bg-bg-card-hover/20 cursor-pointer transition-all active:scale-95">
             <span className="text-xl md:text-2xl">🌍</span>
           </button>
 
-          <button className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-bg-card/10 flex items-center justify-center text-text-secondary hover:bg-bg-card-hover/20 cursor-pointer">
+          <button className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-bg-card/10 flex items-center justify-center text-text-secondary hover:bg-bg-card-hover/20 cursor-pointer transition-all active:scale-95">
             <span className="text-xl md:text-2xl">⚽</span>
           </button>
         </div>
 
-        {/* Mobile size leagure dropdown */}
-        <div className="lg:hidden w-8 h-8 md:w-10 md:h-10 rounded-full bg-bg-card/10 flex items-center justify-center text-text-secondary hover:bg-bg-card-hover/20 cursor-pointer">
-          <LeadingIcon />
-        </div>
+        {/* League Dropdown (Mobile variant) */}
+        <Dropdown
+          options={LEAGUES}
+          selectedId={selectedLeague}
+          onSelect={setSelectedLeague}
+          variant="circle"
+          className="lg:hidden"
+          renderLeading={() => <LeadingIcon />}
+        />
 
-        {/* League dropdown */}
-        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-bg-card/10 rounded-full  cursor-pointer hover:bg-bg-card-hover/20">
-          <LeadingIcon />
-          <span className="text-base text-text-primary font-medium font-poppins hidden md:block">
-            Premier League
-          </span>
-          <ChevronDown size={14} />
-        </div>
+        {/* League Dropdown (Desktop) */}
+        <Dropdown
+          options={LEAGUES}
+          selectedId={selectedLeague}
+          onSelect={setSelectedLeague}
+          className="hidden lg:block"
+          renderLeading={(selected) => selected?.icon || <LeadingIcon />}
+        />
 
-        {/* Season dropdown */}
-        <div className="flex items-center gap-3 px-3 py-1.5 bg-bg-card/10 rounded-full  cursor-pointer hover:bg-bg-card-hover/20">
-          <span className="text-sm text-text-primary font-normal">2024/25</span>
-          <ChevronDown size={14} />
-        </div>
+        {/* Season Dropdown */}
+        <Dropdown
+          options={SEASONS}
+          selectedId={selectedSeason}
+          onSelect={setSelectedSeason}
+        />
 
-        {/* Country flag */}
-        <button className="hidden md:flex w-10 h-10 rounded-full bg-bg-card/10  items-center justify-center text-text-secondary hover:bg-bg-card-hover/20 cursor-pointer">
+        <button className="hidden md:flex w-10 h-10 rounded-full bg-bg-card/10 items-center justify-center text-text-secondary hover:bg-bg-card-hover/20 cursor-pointer transition-all active:scale-95">
           <EnglishFlagIcon />
         </button>
 
         <button
           onClick={onMenuToggle}
-          className="mr-3 text-text-white hover:text-text-secondary lg:hidden"
+          className="mr-3 text-text-white hover:text-text-secondary lg:hidden p-2"
           id="menu-toggle"
         >
           <Menu />

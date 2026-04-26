@@ -169,3 +169,39 @@ export function generateMockTimeline(event: SportEvent): TimelineItem[] {
 
   return items;
 }
+
+
+type DualEvent = {
+  type: "dual_event";
+  data: [TimelineEvent, TimelineEvent];
+  minute: string;
+};
+type GroupedItem = TimelineItem | DualEvent;
+
+export function groupTimelineItems(items: TimelineItem[]): GroupedItem[] {
+  const result: GroupedItem[] = [];
+  for (let i = 0; i < items.length; i++) {
+    const curr = items[i];
+    const next = items[i + 1];
+    if (
+      curr.type === "event" &&
+      next?.type === "event" &&
+      next.data.minute === curr.data.minute &&
+      next.data.side !== curr.data.side
+    ) {
+      const [home, away] =
+        curr.data.side === "home"
+          ? [curr.data, next.data]
+          : [next.data, curr.data];
+      result.push({
+        type: "dual_event",
+        data: [home, away],
+        minute: curr.data.minute,
+      });
+      i++;
+    } else {
+      result.push(curr);
+    }
+  }
+  return result;
+}
