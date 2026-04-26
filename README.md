@@ -44,15 +44,15 @@ Fully responsive and optimized for mobile devices, featuring a slide-out drawer 
 
 ### Core Tech Stack
 
-| Technology                      | Role                                            |
-| :------------------------------ | :---------------------------------------------- |
-| **React 19**                    | UI Library with latest Concurrent Mode features |
-| **TypeScript**                  | Type-safe development with strict configuration |
-| **Tailwind CSS 4**              | Next-gen styling with zero-runtime overhead     |
-| **Vite 7**                      | Ultra-fast build tool and development server    |
-| **React Router v7**             | Declarative routing for deep-linking matches    |
-| **TanStack Query**              | Efficient server-state management and caching   |
-| **Jest + Testing Library**      | Unit and component testing                      |
+| Technology                 | Role                                            |
+| :------------------------- | :---------------------------------------------- |
+| **React 19**               | UI Library with latest Concurrent Mode features |
+| **TypeScript**             | Type-safe development with strict configuration |
+| **Tailwind CSS 4**         | Next-gen styling with zero-runtime overhead     |
+| **Vite 7**                 | Ultra-fast build tool and development server    |
+| **React Router v7**        | Declarative routing for deep-linking matches    |
+| **TanStack Query**         | Efficient server-state management and caching   |
+| **Jest + Testing Library** | Unit and component testing                      |
 
 ### Architecture Highlights
 
@@ -114,7 +114,7 @@ src/
     Create a `.env` file in the root directory:
 
     ```env
-    VITE_API_BASE_URL=https://www.thesportsdb.com/api/v1/json/123
+    VITE_API_BASE_URL=URL HERE
     ```
 
 4.  **Start the development server**
@@ -143,12 +143,12 @@ npm run test:watch
 
 ### Test coverage
 
-| Suite                  | What's tested                                          |
-| :--------------------- | :----------------------------------------------------- |
-| `date.test.ts`         | `formatEventDate`, `formatDateParam`, `formatDatePicker`, `generateDateRange`, `isSameDay`, `isToday` |
-| `matchStatus.test.ts`  | `getMatchStatus`, `getStatusDisplay`, `getStatusColor`, `getStatusTextColor` |
-| `FilterTabs.test.tsx`  | Renders tabs, count badges, active styles, tab change callbacks |
-| `MatchCard.test.tsx`   | Renders teams/scores/status, navigation on click, event propagation |
+| Suite                 | What's tested                                                                                         |
+| :-------------------- | :---------------------------------------------------------------------------------------------------- |
+| `date.test.ts`        | `formatEventDate`, `formatDateParam`, `formatDatePicker`, `generateDateRange`, `isSameDay`, `isToday` |
+| `matchStatus.test.ts` | `getMatchStatus`, `getStatusDisplay`, `getStatusColor`, `getStatusTextColor`                          |
+| `FilterTabs.test.tsx` | Renders tabs, count badges, active styles, tab change callbacks                                       |
+| `MatchCard.test.tsx`  | Renders teams/scores/status, navigation on click, event propagation                                   |
 
 ---
 
