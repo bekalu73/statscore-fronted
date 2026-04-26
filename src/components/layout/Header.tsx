@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { NAV_LINKS } from "../../lib/constants";
+import { Link } from "react-router-dom";
+import { NAV_LINKS, ROUTES } from "../../lib/constants";
 import EnglishFlagIcon from "../icons/english-flag";
 import LeadingIcon from "../icons/leading";
 import logoImg from "../../assets/logo.png";
@@ -31,19 +32,21 @@ export default function Header({ onMenuToggle }: HeaderProps) {
   return (
     <header className="sticky top-0 z-30 flex items-center h-14 px-1 md:px-2 lg:px-6 bg-primary border-b border-border-primary">
       <div className="flex items-center">
-        <img
-          src={logoImg}
-          alt="logo"
-          className="w-50 lg:w-44 h-50 lg:h-14 object-contain lg:pr-4"
-        />
+        <Link to={ROUTES.FIXTURE}>
+          <img
+            src={logoImg}
+            alt="logo"
+            className="w-50 lg:w-44 h-50 lg:h-14 object-contain lg:pr-4 cursor-pointer"
+          />
+        </Link>
       </div>
 
       <div className="ml-auto flex items-center gap-1 md:gap-3">
         <nav className="hidden lg:flex items-center gap-1 mr-2">
           {NAV_LINKS.map((link) => (
-            <a
+            <Link
               key={link.label}
-              href={link.href}
+              to={link.href}
               className={`
               px-3 py-1.5 text-base font-medium transition-colors
               ${
@@ -54,7 +57,7 @@ export default function Header({ onMenuToggle }: HeaderProps) {
             `}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 

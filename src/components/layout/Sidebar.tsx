@@ -1,4 +1,5 @@
-import { NAV_LINKS } from "../../lib/constants";
+import { Link } from "react-router-dom";
+import { NAV_LINKS, ROUTES } from "../../lib/constants";
 import logoImg from "../../assets/logo.png";
 import { X } from "lucide-react";
 
@@ -29,7 +30,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         {/* Logo */}
         <div className="flex items-center gap-2 px-2 py-2 border-b border-border-primary">
           <div className="flex items-center">
-            <img src={logoImg} alt="logo" className="w-32 h-10" />
+            <Link to={ROUTES.FIXTURE} onClick={onClose}>
+              <img src={logoImg} alt="logo" className="w-32 h-10 cursor-pointer" />
+            </Link>
           </div>
           <button
             onClick={onClose}
@@ -44,8 +47,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <ul className="space-y-0.5">
             {NAV_LINKS.map((link) => (
               <li key={link.label}>
-                <a
-                  href={link.href}
+                <Link
+                  to={link.href}
+                  onClick={onClose}
                   className={`
                     flex items-center gap-3 px-5 py-2.5 text-sm font-medium transition-colors
                     ${
@@ -56,7 +60,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                   `}
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
