@@ -114,7 +114,7 @@ src/
     Create a `.env` file in the root directory:
 
     ```env
-    VITE_API_BASE_URL=URL HERE
+    VITE_API_BASE_URL=BACKEND URL HERE
     ```
 
 4.  **Start the development server**
